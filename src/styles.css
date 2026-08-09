@@ -1,0 +1,192 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+@import "@fontsource-variable/inter";
+@import "leaflet/dist/leaflet.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 8px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-amber-glow: var(--amber-glow);
+  --color-emerald-deep: var(--emerald-deep);
+  --color-gold: var(--gold);
+  --color-rust: var(--rust);
+  --animate-float-slow: float-slow 18s ease-in-out infinite;
+  --animate-pin-pulse: pin-pulse 1.6s ease-out 3;
+}
+
+:root {
+  --radius: 1.25rem;
+  --background: oklch(0.15 0.005 285);
+  --foreground: oklch(0.95 0.008 85);
+  --card: oklch(0.19 0.006 285);
+  --card-foreground: oklch(0.95 0.008 85);
+  --popover: oklch(0.19 0.006 285);
+  --popover-foreground: oklch(0.95 0.008 85);
+  --primary: oklch(0.78 0.113 74);
+  --primary-foreground: oklch(0.17 0.01 60);
+  --secondary: oklch(0.24 0.01 285);
+  --secondary-foreground: oklch(0.95 0.008 85);
+  --muted: oklch(0.24 0.01 285);
+  --muted-foreground: oklch(0.68 0.012 80);
+  --accent: oklch(0.45 0.075 172);
+  --accent-foreground: oklch(0.96 0.008 85);
+  --destructive: oklch(0.6 0.2 27);
+  --destructive-foreground: oklch(0.96 0.008 85);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.78 0.113 74);
+  --amber-glow: #e8a855;
+  --emerald-deep: #1b6b5c;
+  --gold: #f4c542;
+  --rust: #b5651d;
+  --shadow-glow: 0 0 0 1px rgba(232, 168, 85, 0.25), 0 18px 60px -18px rgba(232, 168, 85, 0.55);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #0d0d0f;
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.035em;
+  }
+}
+
+@utility glass {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.07),
+    rgba(255, 255, 255, 0.025)
+  );
+  border: 1px solid rgba(242, 240, 235, 0.1);
+  backdrop-filter: blur(18px) saturate(140%);
+}
+
+@utility glass-strong {
+  background: linear-gradient(145deg, rgba(28, 28, 32, 0.92), rgba(18, 18, 21, 0.88));
+  border: 1px solid rgba(242, 240, 235, 0.12);
+  backdrop-filter: blur(28px) saturate(150%);
+}
+
+@utility glow-amber {
+  box-shadow: var(--shadow-glow);
+}
+
+@utility reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4%, -6%, 0) scale(1.12);
+  }
+}
+
+@keyframes pin-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(232, 168, 85, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 0 26px rgba(232, 168, 85, 0);
+  }
+}
+
+/* Leaflet dark theming */
+.leaflet-container {
+  background: #101014;
+  font-family: var(--font-sans);
+}
+.leaflet-tile-pane {
+  filter: invert(1) hue-rotate(190deg) brightness(0.82) contrast(0.92) saturate(0.5);
+}
+.leaflet-control-zoom a {
+  background: rgba(20, 20, 24, 0.9) !important;
+  color: #f2f0eb !important;
+  border-color: rgba(242, 240, 235, 0.12) !important;
+}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: rgba(20, 20, 24, 0.92) !important;
+  color: #f2f0eb !important;
+  border: 1px solid rgba(242, 240, 235, 0.12);
+  border-radius: 18px !important;
+  backdrop-filter: blur(24px);
+  box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.8) !important;
+}
+.leaflet-popup-content {
+  margin: 14px 16px !important;
+}
+.leaflet-popup-close-button {
+  color: #8b8880 !important;
+}
+.leaflet-control-attribution {
+  background: rgba(13, 13, 15, 0.7) !important;
+  color: #6b6862 !important;
+}
+.leaflet-control-attribution a {
+  color: #8b8880 !important;
+}
+.cp-cluster {
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  color: #0d0d0f;
+  font-weight: 700;
+  background: rgba(232, 168, 85, 0.9);
+  border: 2px solid rgba(242, 240, 235, 0.35);
+  box-shadow: 0 0 24px rgba(232, 168, 85, 0.45);
+}
